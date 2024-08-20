@@ -1,6 +1,5 @@
 "use client";
 
-import React, { ReactNode } from "react";
 import {
   Dialog,
   DialogContent,
@@ -14,7 +13,7 @@ interface ModalProps {
   description: string;
   isOpen: boolean;
   onClose: () => void;
-  children?: ReactNode;
+  children?: React.ReactNode;
 }
 
 export const Modal: React.FC<ModalProps> = ({
