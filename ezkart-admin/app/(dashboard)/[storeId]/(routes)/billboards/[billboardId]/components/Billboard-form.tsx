@@ -50,7 +50,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
 
   const title = initialData ? "Edit Billboard" : "Create Billboard";
   const description = initialData ? "Edit a Billboard" : "Add a new Billboard";
-  const toatMessage = initialData ? "Billboard Updated" : "Billboard Created";
+  const toastMessage = initialData ? "Billboard Updated" : "Billboard Created";
   const action = initialData ? "Save Changes" : "Create";
 
   const form = useForm<BillboardFormValues>({
@@ -64,12 +64,19 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   const onSubmit = async (values: BillboardFormValues) => {
     try {
       setLoading(true);
-      const { data } = await axios.patch(
-        `/api/stores/${params.storeId}`,
-        values
-      );
+      if (initialData) {
+        const { data } = await axios.patch(
+          `/api/${params.storeId}/billboards/${params.billboardId}`,
+          values
+        );
+      } else {
+        const { data } = await axios.post(
+          `/api/${params.storeId}/billboards`,
+          values
+        );
+      }
       router.refresh();
-      toast.success("Store Updated");
+      toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error);
@@ -81,13 +88,17 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/stores/${params.storeId}`);
+      await axios.delete(
+        `/api/${params.storeId}/billboards/${params.billboardId}`
+      );
       router.refresh();
       router.push("/");
-      toast.success("Store Deleted");
+      toast.success("Billboard Deleted");
     } catch (error) {
       console.log(error);
-      toast.error("Make sure you removed all products and categories first.");
+      toast.error(
+        "Make sure you removed all categories using this billboard first."
+      );
     } finally {
       setLoading(false);
       setOpen(false);
