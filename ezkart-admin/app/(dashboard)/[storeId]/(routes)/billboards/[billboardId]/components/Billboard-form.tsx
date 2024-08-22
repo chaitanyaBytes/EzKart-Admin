@@ -16,7 +16,6 @@ import { Separator } from "@/components/ui/separator";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -24,13 +23,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { ApiAlert } from "@/components/ui/apiAlert";
-import { useOrigin } from "@/hooks/use-origin";
 import ImageUplaod from "@/components/ui/image-upload";
 
 const formSchema = z.object({
   label: z.string().min(2, { message: "label must be atleast 2 characters" }),
-  imageUrl: z.string().min(1).url({ message: "must be a URL" }),
+  imageUrl: z.string().url({ message: "must be a URL" }),
 });
 
 type BillboardFormValues = z.infer<typeof formSchema>;
@@ -46,7 +43,6 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   const [loading, setLoading] = useState(false);
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
 
   const title = initialData ? "Edit Billboard" : "Create Billboard";
   const description = initialData ? "Edit a Billboard" : "Add a new Billboard";
@@ -76,6 +72,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
         );
       }
       router.refresh();
+      router.push(`/${params.storeId}/billboards`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong");

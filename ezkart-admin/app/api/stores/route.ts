@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (!userId) {
-      return new NextResponse("Unauthorised", { status: 401 });
+      return new NextResponse("Unautheticated", { status: 401 });
     }
 
     const store = await prisma.store.create({
