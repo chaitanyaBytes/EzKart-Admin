@@ -27,7 +27,7 @@ import ImageUplaod from "@/components/ui/image-upload";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "label must be atleast 2 characters" }),
-  value: z.string().min(2, { message: "label must be atleast 2 characters" }),
+  value: z.string().min(1, { message: "label must be atleast 1 character" }),
 });
 
 type SizeformValues = z.infer<typeof formSchema>;
