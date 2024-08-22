@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 
-import { BillBoardColumn } from "./colums";
+import { CategoryColumn } from "./columns";
 import {
   DropdownMenuContent,
   DropdownMenuItem,
@@ -21,7 +21,7 @@ import {
 import { AlertModal } from "@/components/modals/alert-modal";
 
 interface CellActionProps {
-  data: BillBoardColumn;
+  data: CategoryColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
