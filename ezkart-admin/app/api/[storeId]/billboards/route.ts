@@ -57,26 +57,9 @@ export async function GET(
   { params }: { params: { storeId: string } }
 ) {
   try {
-    // const { userId } = auth();
-
-    // if (!userId) {
-    //   return new NextResponse("Unauthenticated", { status: 401 });
-    // }
-
     if (!params.storeId) {
       return new NextResponse("StoreId is required", { status: 400 });
     }
-
-    // const storeByUserId = await prisma.store.findFirst({
-    //   where: {
-    //     id: params.storeId,
-    //     userId,
-    //   },
-    // });
-
-    // if (!storeByUserId) {
-    //   return new NextResponse("Unauthorised", { status: 403 });
-    // }
 
     const billboards = await prisma.billboard.findMany({
       where: {

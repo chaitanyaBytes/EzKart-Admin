@@ -4,10 +4,18 @@ import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
+import { ApiList } from "@/components/ui/api-list";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
+import { DataTable } from "@/components/ui/data-table";
 
-export const BillBoardClient = () => {
+import { BillBoardColumn, columns } from "./colums";
+
+interface BillBoardClientProps {
+  data: BillBoardColumn[];
+}
+
+export const BillBoardClient: React.FC<BillBoardClientProps> = ({ data }) => {
   const router = useRouter();
   const params = useParams();
 
@@ -15,7 +23,7 @@ export const BillBoardClient = () => {
     <>
       <div className="flex item-center justify-between">
         <Heading
-          title={"Billboards (0)"}
+          title={`Billboards (${data.length})`}
           description={"Manage billboards for your store"}
         />
         <Button
@@ -26,6 +34,10 @@ export const BillBoardClient = () => {
         </Button>
       </div>
       <Separator />
+      <DataTable columns={columns} data={data} searchKey={"label"} />
+      <Heading title="API" description="API calls for Billboards" />
+      <Separator />
+      <ApiList entityName="billboards" entityIdName="billboardId" />
     </>
   );
 };
