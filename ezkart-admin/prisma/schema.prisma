@@ -98,7 +98,7 @@ model Product {
   images     Image[]
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
-  OrderItem  OrderItem[]
+  orderItems OrderItem[]
 
   @@index([storeId])
   @@index([categoryId])
