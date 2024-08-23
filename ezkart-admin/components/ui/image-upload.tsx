@@ -2,8 +2,8 @@
 
 import { ImagePlus, Trash } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { CldUploadWidget } from "next-cloudinary";
+import { useEffect, useRef, useState } from "react";
+import { CldUploadWidget, CloudinaryUploadWidgetInfo } from "next-cloudinary";
 
 import { Button } from "@/components/ui/button";
 
@@ -22,13 +22,15 @@ const ImageUplaod: React.FC<ImageUplaodProps> = ({
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
+  const ref = useRef<any>();
+
+  useEffect(() => {
+    ref.current = onChange;
+  });
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  const onUpload = (results: any) => {
-    onChange(results.info.secure_url);
-  };
 
   if (!isMounted) {
     return null;
@@ -36,7 +38,7 @@ const ImageUplaod: React.FC<ImageUplaodProps> = ({
 
   return (
     <div>
-      <div className="mb-4 flex items-center">
+      <div className="mb-4 flex items-center space-x-2">
         {value.map((url) => (
           <div
             key={url}
@@ -44,7 +46,7 @@ const ImageUplaod: React.FC<ImageUplaodProps> = ({
           >
             <div className="z-10 absolute top-2 right-2">
               <Button
-                type="button"
+                type={"button"}
                 onClick={() => onRemove(url)}
                 variant={"destructive"}
                 size={"icon"}
@@ -56,7 +58,15 @@ const ImageUplaod: React.FC<ImageUplaodProps> = ({
           </div>
         ))}
       </div>
-      <CldUploadWidget onSuccess={onUpload} uploadPreset="qkhe10ur">
+      <CldUploadWidget
+        onSuccess={(results) => {
+          if (results.info) {
+            const info = results.info as CloudinaryUploadWidgetInfo;
+            ref.current(info.secure_url);
+          }
+        }}
+        uploadPreset="qkhe10ur"
+      >
         {({ open }) => {
           const onClick = () => {
             open();
@@ -65,7 +75,7 @@ const ImageUplaod: React.FC<ImageUplaodProps> = ({
           return (
             <div className="flex space-x-2">
               <Button
-                typeof="button"
+                type="button"
                 disabled={disabled}
                 variant={"secondary"}
                 onClick={onClick}

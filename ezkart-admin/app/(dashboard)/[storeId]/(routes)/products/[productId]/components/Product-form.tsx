@@ -83,7 +83,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     defaultValues: initialData
       ? {
           ...initialData,
-          price: parseFloat(String(initialData?.price)),
+          price: Number(initialData?.price),
         }
       : {
           name: "",
@@ -175,13 +175,17 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <ImageUplaod
                     value={field.value.map((image) => image.url)}
                     disabled={loading}
-                    onChange={(url) =>
-                      field.onChange([...field.value, { url }])
-                    }
+                    onChange={(url) => {
+                      const updatedImages = field.value
+                        ? [...field.value, { url }]
+                        : [{ url }];
+                      console.log("Updated images array:", updatedImages);
+                      field.onChange(updatedImages);
+                    }}
                     onRemove={(url) =>
-                      field.onChange([
-                        ...field.value.filter((current) => current.url !== url),
-                      ])
+                      field.onChange(
+                        field.value.filter((current) => current.url !== url)
+                      )
                     }
                   />
                 </FormControl>
