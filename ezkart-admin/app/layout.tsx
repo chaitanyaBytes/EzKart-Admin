@@ -7,6 +7,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ModalProvider } from "@/providers/Modal-provider";
 import { ToasterProvider } from "@/providers/Toast-provider";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -32,9 +33,16 @@ export default function RootLayout({
             fontSans.variable
           )}
         >
-          <ToasterProvider />
-          <ModalProvider />
-          {children}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <ToasterProvider />
+            <ModalProvider />
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
